@@ -1,1 +1,1 @@
-V10: face blend improved with oval feather mask, enlarged crop, neck and khaki collar overlap. Upload index.html + face0.png..face5.png.
+V11: human-proportioned articulated CSS character with existing 6 face assets. Upload index.html and face0.png-face5.png.
