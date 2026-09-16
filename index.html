@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#030817">
+<meta name="robots" content="noindex,nofollow">
+<title>OHM BLASTER</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#020612;color:#fff;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;overflow:hidden}
+button{font:inherit}.app{height:100dvh;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#0b2e58 0,#061229 32%,#020612 72%)}
+.phone{position:relative;width:min(100vw,520px);height:100dvh;max-height:920px;overflow:hidden;background:#030817}
+canvas{width:100%;height:100%;display:block;touch-action:none}
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 35%,rgba(14,62,119,.55),rgba(2,6,18,.94) 70%);z-index:10}
+.logo{font-size:clamp(42px,12vw,72px);font-weight:1000;line-height:.82;letter-spacing:-3px;text-align:center;font-style:italic;text-shadow:0 0 12px #39a9ff,0 0 34px #174cff}
+.logo span{display:block;color:#79d8ff;font-size:.43em;letter-spacing:7px;margin-top:16px;font-style:normal}
+.tag{margin:20px 0 28px;color:#a7c7e9;text-align:center;font-weight:700}.mainbtn,.smallbtn{border:1px solid #75cfff;color:#fff;background:linear-gradient(#1477bd,#073e78);border-radius:14px;box-shadow:0 0 20px #168cff66;font-weight:900}
+.mainbtn{width:min(330px,90%);padding:16px;font-size:21px}.smallbtn{padding:11px 16px;margin-top:12px}
+.hidden{display:none!important}.tutorial{max-width:380px;text-align:center;color:#c8dcf4;font-size:14px;margin-top:18px}
+#hud{position:absolute;z-index:5;left:0;right:0;top:0;padding:12px 14px;pointer-events:none}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.stage{font-weight:1000;font-size:17px}.score{text-align:right;font-weight:900}.mission{margin:8px auto 0;width:max-content;max-width:92%;padding:8px 14px;border:1px solid #4bbcff88;background:#031328cc;border-radius:10px;text-align:center;font-weight:900;box-shadow:0 0 16px #0b8dff33}.hearts{color:#ff6670;letter-spacing:2px}
+#toast{position:absolute;z-index:6;top:43%;left:50%;transform:translate(-50%,-50%);padding:10px 16px;border:1px solid #65cfff;background:#031126e8;border-radius:12px;font-weight:1000;opacity:0;transition:.15s;pointer-events:none;text-align:center;white-space:nowrap}
+#fireHint{position:absolute;right:20px;bottom:28px;z-index:5;width:74px;height:74px;border-radius:50%;border:2px solid #5dc8ff66;display:grid;place-items:center;color:#9bdcff;background:#07203c66;pointer-events:none;font-weight:900}
+#moveHint{position:absolute;left:20px;bottom:28px;z-index:5;width:90px;height:90px;border-radius:50%;border:2px solid #5dc8ff33;background:#07203c33;pointer-events:none}
+.card{width:min(380px,94%);padding:22px;border:1px solid #3886b8;background:#06152be8;border-radius:20px;box-shadow:0 0 35px #0b77d944;text-align:center}
+.stars{font-size:44px;color:#ffc64b;text-shadow:0 0 15px #ff9d00}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}.stat{padding:12px;background:#091d36;border-radius:10px}.tiny{font-size:12px;color:#8faecc}
+</style>
+</head>
+<body>
+<div class="app"><main class="phone">
+<canvas id="game"></canvas>
+<div id="hud" class="hidden"><div class="row"><div><div class="stage" id="stage">STAGE 1</div><div class="hearts" id="hp">♥ ♥ ♥</div></div><div class="score">SCORE<br><span id="score">0</span></div></div><div class="mission" id="mission">ยิงสัญลักษณ์ V</div></div>
+<div id="toast">PERFECT +100</div><div id="moveHint" class="hidden"></div><div id="fireHint" class="hidden">FIRE</div>
+<section id="menu" class="overlay">
+  <div class="logo">OHM<br>BLASTER<span>SHOOT • LEARN • POWER UP</span></div>
+  <div class="tag">เกมยิงพิชิตกฎของโอห์ม<br><small>จำ V • I • R แล้วคำนวณเพื่อทำลายบอส</small></div>
+  <button class="mainbtn" id="play">เริ่มเกม</button>
+  <div class="tutorial">มือถือ: ลากนิ้วเพื่อบังคับยาน • แตะ/กดค้างเพื่อยิง<br>คอม: ลูกศร/WASD + Space</div>
+</section>
+<section id="result" class="overlay hidden"><div class="card"><div class="tiny">MISSION COMPLETE</div><h1>STAGE CLEAR!</h1><div class="stars">★★★</div><div class="stats"><div class="stat">คะแนน<br><b id="finalScore">0</b></div><div class="stat">ความแม่นยำ<br><b id="accuracy">0%</b></div></div><button class="mainbtn" id="again">เล่นอีกครั้ง</button></div></section>
+</main></div>
+<script>
+const c=document.getElementById('game'),ctx=c.getContext('2d');let W,H,DPR;
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=c.clientWidth;H=c.clientHeight;c.width=W*DPR;c.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+addEventListener('resize',resize);resize();
+const $=s=>document.querySelector(s), menu=$('#menu'),hud=$('#hud'),result=$('#result'),toast=$('#toast'),moveHint=$('#moveHint'),fireHint=$('#fireHint');
+let playing=false,ship,bullets=[],targets=[],particles=[],stars=[],score=0,hp=3,shots=0,hits=0,stage=1,wave=0,last=0,spawnT=0,flash=0,boss=null,keys={};
+for(let i=0;i<100;i++)stars.push({x:Math.random(),y:Math.random(),z:Math.random()*2+0.4});
+const stages=[
+ {mission:'ยิงสัญลักษณ์ V',correct:'V',pool:['V','I','R'],count:8},
+ {mission:'ยิงหน่วยของกระแสไฟฟ้า I',correct:'A',pool:['V','A','Ω'],count:8},
+ {mission:'12 V ÷ 4 Ω = ? A',correct:'3 A',pool:['2 A','3 A','6 A'],count:8},
+ {mission:'24 V ÷ 6 A = ? Ω',correct:'4 Ω',pool:['2 Ω','4 Ω','6 Ω'],count:8}
+];
+function reset(){score=0;hp=3;shots=0;hits=0;stage=1;wave=0;bullets=[];targets=[];particles=[];boss=null;ship={x:W/2,y:H*.82,r:20};playing=true;menu.classList.add('hidden');result.classList.add('hidden');hud.classList.remove('hidden');moveHint.classList.remove('hidden');fireHint.classList.remove('hidden');updateHud();startStage()}
+function updateHud(){ $('#score').textContent=score.toLocaleString();$('#hp').textContent='♥ '.repeat(Math.max(0,hp));$('#stage').textContent=stage<5?'STAGE '+stage:'STAGE 5 · BOSS';}
+function startStage(){targets=[];wave=0;if(stage<=4)$('#mission').textContent=stages[stage-1].mission;else{$('#mission').textContent='BOSS OVERLOAD · ยิงคำตอบ 4 A';boss={x:W/2,y:120,r:62,hp:8,max:8,dir:1,fire:0}}}
+function pop(t){toast.textContent=t;toast.style.opacity=1;clearTimeout(pop.t);pop.t=setTimeout(()=>toast.style.opacity=0,550)}
+function spawn(){if(stage>4||targets.length>5)return;let s=stages[stage-1],text=s.pool[Math.floor(Math.random()*s.pool.length)];targets.push({x:45+Math.random()*(W-90),y:-30,r:25,text,vy:1.4+stage*.18,phase:Math.random()*6.28});wave++}
+function fire(){if(!playing)return;shots++;bullets.push({x:ship.x,y:ship.y-25,vy:-10,r:4});}
+function burst(x,y,col='#58c8ff'){for(let i=0;i<14;i++)particles.push({x,y,vx:(Math.random()-.5)*7,vy:(Math.random()-.5)*7,a:1,col})}
+function hitTarget(t){let s=stages[stage-1];if(t.text===s.correct){hits++;score+=100;burst(t.x,t.y);pop('PERFECT +100')}else{hp--;burst(t.x,t.y,'#ff654f');pop('ผิด! ดูภารกิจด้านบน');flash=.25;if(hp<=0){hp=3;score=Math.max(0,score-200)}}updateHud()}
+function nextStage(){stage++;if(stage>5){finish();return}startStage();updateHud();pop(stage===5?'WARNING: BOSS OVERLOAD':'STAGE '+stage)}
+function finish(){playing=false;hud.classList.add('hidden');moveHint.classList.add('hidden');fireHint.classList.add('hidden');$('#finalScore').textContent=score.toLocaleString();$('#accuracy').textContent=Math.round(hits/Math.max(1,shots)*100)+'%';result.classList.remove('hidden')}
+function circleHit(a,b){return Math.hypot(a.x-b.x,a.y-b.y)<a.r+b.r}
+function update(dt){
+ if(!playing)return;
+ stars.forEach(s=>{s.y+=.00008*dt*s.z;if(s.y>1)s.y=0});
+ let sp=.34*dt;if(keys.ArrowLeft||keys.a)ship.x-=sp;if(keys.ArrowRight||keys.d)ship.x+=sp;if(keys.ArrowUp||keys.w)ship.y-=sp;if(keys.ArrowDown||keys.s)ship.y+=sp;ship.x=Math.max(24,Math.min(W-24,ship.x));ship.y=Math.max(H*.45,Math.min(H-30,ship.y));
+ bullets.forEach(b=>b.y+=b.vy*dt/16.67);bullets=bullets.filter(b=>b.y>-20);
+ particles.forEach(p=>{p.x+=p.vx*dt/16.67;p.y+=p.vy*dt/16.67;p.a-=.025*dt/16.67});particles=particles.filter(p=>p.a>0);
+ if(stage<=4){spawnT+=dt;if(spawnT>650&&wave<stages[stage-1].count){spawn();spawnT=0}targets.forEach(t=>{t.y+=t.vy*dt/16.67;t.x+=Math.sin(t.y*.02+t.phase)*.35});
+ for(let bi=bullets.length-1;bi>=0;bi--)for(let ti=targets.length-1;ti>=0;ti--)if(circleHit(bullets[bi],targets[ti])){hitTarget(targets[ti]);bullets.splice(bi,1);targets.splice(ti,1);break}
+ targets=targets.filter(t=>t.y<H+50);if(wave>=stages[stage-1].count&&targets.length===0)setTimeout(()=>{if(playing&&stage<=4)nextStage()},500)
+ }else if(boss){boss.x+=boss.dir*.08*dt;if(boss.x<80||boss.x>W-80)boss.dir*=-1;for(let bi=bullets.length-1;bi>=0;bi--)if(circleHit(bullets[bi],boss)){bullets.splice(bi,1);boss.hp--;hits++;score+=150;burst(boss.x+(Math.random()-.5)*60,boss.y+(Math.random()-.5)*40,'#ff8a4d');pop('4 A · HIT!');updateHud();if(boss.hp<=0){score+=1000;burst(boss.x,boss.y,'#ffd34d');boss=null;setTimeout(finish,700)}break}}
+ if(flash>0)flash-=dt/1000;
+}
+function draw(){
+ ctx.clearRect(0,0,W,H);let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#02091c');g.addColorStop(.5,'#071b35');g.addColorStop(1,'#020612');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ stars.forEach(s=>{ctx.globalAlpha=.35+s.z*.25;ctx.fillStyle='#9fdcff';ctx.fillRect(s.x*W,s.y*H,s.z,s.z*3)});ctx.globalAlpha=1;
+ ctx.strokeStyle='#0b5790';ctx.globalAlpha=.16;for(let y=120;y<H;y+=70){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}ctx.globalAlpha=1;
+ targets.forEach(t=>{ctx.save();ctx.shadowBlur=22;ctx.shadowColor=t.text.includes('V')?'#ff394f':t.text.includes('A')||t.text==='I'?'#2aaaff':'#34df9a';ctx.fillStyle='#071528';ctx.strokeStyle=ctx.shadowColor;ctx.lineWidth=3;ctx.beginPath();ctx.arc(t.x,t.y,t.r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.font='900 17px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t.text,t.x,t.y);ctx.restore()});
+ if(boss){ctx.save();ctx.translate(boss.x,boss.y);ctx.shadowBlur=30;ctx.shadowColor='#ff3b28';ctx.fillStyle='#37151b';ctx.strokeStyle='#ff684c';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,0,boss.r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#ff7a4f';ctx.beginPath();ctx.arc(0,0,20,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 12px system-ui';ctx.textAlign='center';ctx.fillText('OVERLOAD',0,-8);ctx.fillText('24V ÷ 6Ω = 4A',0,10);ctx.restore();ctx.fillStyle='#32131a';ctx.fillRect(40,52,W-80,9);ctx.fillStyle='#ff563f';ctx.fillRect(40,52,(W-80)*(boss.hp/boss.max),9)}
+ bullets.forEach(b=>{ctx.save();ctx.shadowBlur=16;ctx.shadowColor='#52cfff';ctx.fillStyle='#d8f8ff';ctx.fillRect(b.x-2,b.y-12,4,16);ctx.restore()});
+ particles.forEach(p=>{ctx.globalAlpha=p.a;ctx.fillStyle=p.col;ctx.fillRect(p.x,p.y,3,3)});ctx.globalAlpha=1;
+ if(ship){ctx.save();ctx.translate(ship.x,ship.y);ctx.shadowBlur=25;ctx.shadowColor='#27aaff';ctx.fillStyle='#7cd9ff';ctx.beginPath();ctx.moveTo(0,-28);ctx.lineTo(20,20);ctx.lineTo(0,12);ctx.lineTo(-20,20);ctx.closePath();ctx.fill();ctx.fillStyle='#ff9a36';ctx.beginPath();ctx.moveTo(-7,17);ctx.lineTo(0,36+Math.random()*8);ctx.lineTo(7,17);ctx.fill();ctx.restore()}
+ if(flash>0){ctx.fillStyle='rgba(255,70,50,.18)';ctx.fillRect(0,0,W,H)}
+}
+function loop(t){let dt=Math.min(33,t-last||16);last=t;update(dt);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+$('#play').onclick=reset;$('#again').onclick=reset;
+addEventListener('keydown',e=>{keys[e.key]=true;if(e.code==='Space'){e.preventDefault();fire()}});addEventListener('keyup',e=>keys[e.key]=false);
+let dragging=false,lastFire=0;
+c.addEventListener('pointerdown',e=>{if(!playing)return;dragging=true;c.setPointerCapture(e.pointerId);ship.x=e.offsetX;ship.y=Math.max(H*.45,e.offsetY);fire();lastFire=performance.now()});
+c.addEventListener('pointermove',e=>{if(!dragging||!playing)return;ship.x=Math.max(24,Math.min(W-24,e.offsetX));ship.y=Math.max(H*.45,Math.min(H-30,e.offsetY));if(performance.now()-lastFire>150){fire();lastFire=performance.now()}});
+c.addEventListener('pointerup',()=>dragging=false);c.addEventListener('pointercancel',()=>dragging=false);
+</script>
+</body></html>
