@@ -1,2 +1,2 @@
-RESCUE KR JET — Flood Escape
-อัปโหลด index.html และ teacher.jpg ไปไว้ใน root ของ GitHub Pages เดียวกัน
+RESCUE KR JET Animated V2
+Upload index.html and teacher.jpg together to GitHub Pages root.
