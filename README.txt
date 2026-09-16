@@ -1,1 +1,1 @@
-V6 uses only HTML/CSS/JS. No image assets required. Upload index.html to GitHub Pages.
+Upload index.html and krjet-game.png together to GitHub Pages root.
