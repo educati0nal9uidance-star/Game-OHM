@@ -1,11 +1,14 @@
-OHM ARENA — Circuit Survival
-เว็บเกมใหม่ แยกจาก OHM BLASTER
-- มือถือ: ลากนิ้วเดินอิสระ
-- ยิงอัตโนมัติ
-- ศัตรูเข้าหลายทิศทาง
-- EXP / Level Up / เลือกอัปเกรด
-- Battery, Resistor, Power, Cooling, Drone, Speed
-- V, I, R สัมพันธ์กันด้วย I = V/R
-- กระแสสูงเกินไปทำให้ Overload
-- Boss OVERLOAD TITAN หลัง 35 kills
-- ใช้ GitHub Pages ได้: อัปโหลด index.html
+OHM ARENA V2
+อัปโหลด index.html นี้ทับ index.html เดิมใน GitHub Pages ได้ทันที
+
+ระบบใหม่:
+- animation/particles/glow
+- enemy 3 classes
+- enemy projectiles
+- EXP orbs
+- 9 upgrade modules
+- drone / critical / piercing / regeneration
+- V-I-R formula feedback
+- overload mechanic
+- multi-phase boss
+- mobile drag controls + auto aim/fire
