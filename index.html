@@ -1,6 +1,50 @@
 <!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="robots" content="noindex,nofollow"><title>RESCUE KR JET V9</title><style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020813;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;color:white}#g{position:relative;width:min(100vw,500px);height:100dvh;margin:auto;overflow:hidden;background:linear-gradient(#07182e,#0b4664 58%,#03101c)}.storm{position:absolute;inset:0;background:radial-gradient(circle at 75% 15%,#8fe8ff55,transparent 20%),linear-gradient(120deg,transparent 45%,#fff2 46%,transparent 47%);animation:flash 5s infinite}.title{position:absolute;z-index:30;top:9px;left:10px;font-size:25px;font-weight:1000;font-style:italic;text-shadow:0 0 12px #42cfff}.title b{color:#ffb429}.hud{position:absolute;z-index:30;right:8px;top:8px;background:#061a2de8;border:1px solid #43c7ff;border-radius:10px;padding:6px 9px;font-weight:900}.teacher{position:absolute;z-index:8;left:7%;top:14%;width:67%;height:45%;animation:bob 1.4s ease-in-out infinite}.body{position:absolute;left:26%;top:35%;width:49%;height:60%;background:#cba46b;border:5px solid #654a30;border-radius:35% 35% 20% 20%;transform:rotate(-2deg)}.shirt{position:absolute;inset:0;background:linear-gradient(90deg,transparent 47%,#e0bf8d 48% 53%,transparent 54%);border-radius:inherit}.badge{position:absolute;right:13%;top:31%;width:24%;height:6%;background:repeating-linear-gradient(90deg,#f24 0 18%,#ffd44c 18% 36%,#4cbcff 36% 54%)}.arm{position:absolute;width:20%;height:55%;background:#cba46b;border:5px solid #654a30;border-radius:30px;top:39%}.left{left:10%;transform-origin:75% 8%;animation:leftArm .8s ease-in-out infinite}.right{right:7%;transform-origin:25% 8%;animation:rightArm 1s ease-in-out infinite}.hand{position:absolute;width:33%;height:20%;background:#dca47c;border:5px solid #654a30;border-radius:50%;bottom:-8%;left:-6%}.face{position:absolute;z-index:5;left:25%;top:0;width:51%;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 5px 4px #0006);animation:head 1.8s ease-in-out infinite}.water{position:absolute;z-index:12;left:-10%;bottom:38%;width:120%;height:18%;background:linear-gradient(#c5f8ff,#149ed2 18%,#034e75);transition:height .65s;animation:swell .8s ease-in-out infinite alternate}.wave{position:absolute;top:-18px;width:110%;height:28px;background:radial-gradient(ellipse at 50% 100%,#fff 0 28%,transparent 32%) 0 0/48px 25px repeat-x;animation:wave .55s linear infinite}.speech{position:absolute;z-index:18;right:5%;top:25%;width:130px;padding:8px;background:white;color:#12243a;border-radius:12px;font-size:10px;font-weight:900}.quiz{position:absolute;z-index:25;left:8px;right:8px;bottom:8px;height:39%;padding:9px;background:#061a2ef4;border:1.5px solid #4bc5ff;border-radius:15px}.q{min-height:50px;background:#eff9ff;color:#10243b;border-radius:9px;padding:8px;font-size:13px;font-weight:950;display:flex;align-items:center}.answers{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}.answers button{min-height:40px;border-radius:9px;border:1px solid #b7d6e8;font-size:12px;font-weight:900}.feed{margin-top:6px;font-size:10px;font-weight:900}.progress{height:8px;background:#17384d;border-radius:8px;margin:7px 0;overflow:hidden}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#27e58f,#ffe45a);transition:.4s}.good{color:#65ff91}.bad{color:#ff8d86}.screen{position:absolute;z-index:60;inset:0;display:grid;place-items:center;background:radial-gradient(circle,#0b4d74,#020713 75%);padding:22px;text-align:center}.screen h1{font-size:48px;line-height:.9}.screen h1 b{color:#ffb429}.screen button{width:100%;padding:15px;border:0;border-radius:13px;background:#ffbd32;font-size:18px;font-weight:1000}.hidden{display:none}.wrong .teacher{animation:shake .12s 7}.correct .teacher{animation:jump .5s ease}
 @keyframes bob{50%{transform:translateY(-8px)}}@keyframes head{50%{transform:rotate(-5deg) translateY(-3px)}}@keyframes leftArm{0%,100%{transform:rotate(24deg)}50%{transform:rotate(-35deg) translate(-7px,-9px)}}@keyframes rightArm{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(25deg)}}@keyframes swell{to{transform:translateY(7px)}}@keyframes wave{to{background-position:48px 0}}@keyframes shake{50%{transform:translateX(8px) rotate(2deg)}}@keyframes jump{50%{transform:translateY(-16px) scale(1.03)}}@keyframes flash{3%,6%{filter:brightness(1.6)}4%,7%,100%{filter:brightness(1)}}
+
+/* V10 FACE BLEND */
+.faceWrap{
+  position:absolute!important;
+  left:50%!important; top:48px!important;
+  width:132px!important; height:150px!important;
+  transform:translateX(-50%);
+  border-radius:48% 48% 45% 45% / 42% 42% 55% 55%;
+  overflow:hidden!important;
+  z-index:12!important;
+  background:#d6a078;
+  box-shadow:0 5px 10px #0003;
+  -webkit-mask-image:radial-gradient(ellipse 55% 60% at 50% 47%,#000 72%,rgba(0,0,0,.92) 79%,transparent 96%);
+  mask-image:radial-gradient(ellipse 55% 60% at 50% 47%,#000 72%,rgba(0,0,0,.92) 79%,transparent 96%);
+}
+.faceWrap img,.faceWrap .face{
+  width:148%!important;height:148%!important;
+  max-width:none!important;
+  object-fit:cover!important;
+  object-position:50% 34%!important;
+  position:absolute!important;left:-24%!important;top:-17%!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+.faceWrap:after{
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(180deg,transparent 66%,rgba(190,139,96,.32) 88%,rgba(190,139,96,.58));
+ pointer-events:none
+}
+.neckBlend{
+ position:absolute;z-index:10;left:50%;top:165px;transform:translateX(-50%);
+ width:58px;height:55px;border-radius:15px 15px 25px 25px;
+ background:linear-gradient(#d9a078,#c68f69);box-shadow:0 3px 5px #0002
+}
+.collarBlend{
+ position:absolute;z-index:13;left:50%;top:183px;transform:translateX(-50%);
+ width:112px;height:54px;pointer-events:none
+}
+.collarBlend:before,.collarBlend:after{
+ content:"";position:absolute;top:0;width:58px;height:40px;background:#caa36b;
+ border:3px solid #674b30
+}
+.collarBlend:before{left:0;clip-path:polygon(0 0,100% 20%,68% 100%,0 55%)}
+.collarBlend:after{right:0;clip-path:polygon(100% 0,0 20%,32% 100%,100% 55%)}
+
 </style></head><body><main id="g"><div class="storm"></div><div class="title"><b>RESCUE</b> KR JET</div><div class="hud">เวลา <span id="time">20</span> · <span id="score">0</span> คะแนน</div><div class="teacher"><div class="arm left"><i class="hand"></i></div><div class="arm right"><i class="hand"></i></div><div class="body"><div class="shirt"></div><div class="badge"></div></div><img id="face" class="face" src="face0.png"></div><div id="speech" class="speech">ช่วยครูเจตด้วยครับ!</div><div id="water" class="water"><div class="wave"></div></div><section class="quiz"><div id="q" class="q"></div><div class="progress"><i id="prog"></i></div><div id="answers" class="answers"></div><div id="feed" class="feed">เลือกคำตอบก่อนเวลาหมด</div></section><section id="menu" class="screen"><div><h1><b>RESCUE</b><br>KR JET</h1><p>หน้าครูเจตสลับอารมณ์ + แขน SVG ขยับจริง</p><button id="start">เริ่มเกม</button></div></section><section id="end" class="screen hidden"><div><h1><b>SAFE!</b></h1><p id="sum"></p><button id="again">เล่นอีกครั้ง</button></div></section></main><script>
 const Q=[["12 V ÷ 6 Ω = ?",["1 A","2 A","3 A","6 A"],1],["10 V ÷ 5 Ω = ?",["1 A","2 A","5 A","10 A"],1],["I=2 A, R=5 Ω → V=?",["5 V","7 V","10 V","12 V"],2],["V=20 V, I=4 A → R=?",["4 Ω","5 Ω","8 Ω","10 Ω"],1],["9 V ÷ 3 Ω = ?",["2 A","3 A","6 A","9 A"],1],["I=3 A, R=4 Ω → V=?",["7 V","12 V","16 V","24 V"],1],["24 V ÷ 8 Ω = ?",["2 A","3 A","4 A","8 A"],1],["18 V ÷ 3 A → R=?",["3 Ω","6 Ω","9 Ω","18 Ω"],1],["I=2 A, R=6 Ω → V=?",["3 V","8 V","12 V","18 V"],2],["30 V ÷ 10 Ω = ?",["2 A","3 A","10 A","30 A"],1]];
 const $=s=>document.querySelector(s),g=$('#g'),face=$('#face');let n=0,score=0,ok=0,t=20,water=18,timer,lock=false;

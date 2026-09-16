@@ -1,1 +1,1 @@
-Upload index.html and face0.png through face5.png together to the GitHub Pages root.
+V10: face blend improved with oval feather mask, enlarged crop, neck and khaki collar overlap. Upload index.html + face0.png..face5.png.
