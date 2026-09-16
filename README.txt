@@ -1,2 +1,1 @@
-RESCUE KR JET Game V3
-Upload index.html and scene.png together to GitHub Pages root.
+Portrait mobile version. Upload index.html + scene.png to GitHub Pages root.
