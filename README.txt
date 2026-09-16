@@ -1,1 +1,2 @@
-Portrait mobile version. Upload index.html + scene.png to GitHub Pages root.
+RESCUE KR JET V5
+Upload index.html + scene.png to the root of your GitHub Pages repository.
