@@ -1,6 +1,11 @@
-OHM BLASTER V2
+OHM ARENA — Circuit Survival
+เว็บเกมใหม่ แยกจาก OHM BLASTER
+- มือถือ: ลากนิ้วเดินอิสระ
 - ยิงอัตโนมัติ
-- มือถือใช้ลากยานซ้าย-ขวา
-- เป้าหมายใหญ่ขึ้นและ hitbox กว้างขึ้น
-- 4 ด่าน + Boss
-- GitHub Pages: อัปโหลด index.html ทับไฟล์เดิม
+- ศัตรูเข้าหลายทิศทาง
+- EXP / Level Up / เลือกอัปเกรด
+- Battery, Resistor, Power, Cooling, Drone, Speed
+- V, I, R สัมพันธ์กันด้วย I = V/R
+- กระแสสูงเกินไปทำให้ Overload
+- Boss OVERLOAD TITAN หลัง 35 kills
+- ใช้ GitHub Pages ได้: อัปโหลด index.html
