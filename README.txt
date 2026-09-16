@@ -1,2 +1,1 @@
-RESCUE KR JET V5
-Upload index.html + scene.png to the root of your GitHub Pages repository.
+V6 uses only HTML/CSS/JS. No image assets required. Upload index.html to GitHub Pages.
