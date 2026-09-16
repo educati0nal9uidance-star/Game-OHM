@@ -1,2 +1,2 @@
-RESCUE KR JET Animated V2
-Upload index.html and teacher.jpg together to GitHub Pages root.
+RESCUE KR JET Game V3
+Upload index.html and scene.png together to GitHub Pages root.
