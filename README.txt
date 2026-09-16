@@ -1,1 +1,1 @@
-Upload index.html and krjet-game.png together to GitHub Pages root.
+V8: no image files. The cartoon teacher is inline SVG with separately animated head, arms, eyes and mouth. Upload index.html only.
