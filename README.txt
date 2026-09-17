@@ -1,1 +1,9 @@
-V13.5 Pivot Rig. Nested hierarchy per arm: shoulderPivot > upperArm > elbowPivot > forearm > wristPivot > hand. Head source is clipped to an oval so its rectangular source background is hidden. Upload index.html and PNGs together.
+RESCUE ครูเจต V14 — River Escape
+เปิด index.html ในเบราว์เซอร์ โดยเก็บ character.png ไว้ในโฟลเดอร์เดียวกัน
+GitHub Pages: อัปโหลด index.html และ character.png แทนไฟล์หน้าเกมเดิม
+เกมไม่ใช้ CDN หรือบริการภายนอก เล่นออฟไลน์ได้เมื่อดาวน์โหลดครบ
+ตอบ 10 ข้อ ข้อละ 20 วินาที กดข้อถัดไปหลังดูเฉลย
+พักอัตโนมัติเมื่อสลับแท็บ เสียงเริ่มต้นปิด เปิดได้ที่ปุ่มเสียง
+ใช้ภาพชีตต้นฉบับเป็น atlas และวาดชิ้นส่วนด้วย Canvas
+ตัวละครเป็น 2D แยกชิ้นส่วน ไม่ใช่โมเดล 3D; ไม่มีแอนิเมชันปากพูดหรือกะพริบตา
+จระเข้เป็นภาพวาดเวกเตอร์เคลื่อนไหว อันตรายสูงสุดไม่แสดงการบาดเจ็บ
