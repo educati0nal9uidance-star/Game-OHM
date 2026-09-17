@@ -1,1 +1,1 @@
-V13.2: each arm is split into 3 overlapping transparent image pieces: upper arm, forearm, hand. Independent pivots: shoulder, elbow, wrist. Upload index.html and all PNG files together.
+V13.3 layered transparent character. Upload index.html and every PNG file together.
