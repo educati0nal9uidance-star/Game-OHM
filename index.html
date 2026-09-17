@@ -1,46 +1,66 @@
 <!doctype html><html lang="th"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="robots" content="noindex,nofollow"><title>RESCUE ครูเจต V13.4</title>
+<meta name="robots" content="noindex,nofollow"><title>RESCUE ครูเจต V13.5 Pivot Rig</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#03101e;color:#fff;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif}
 #game{position:relative;width:min(100vw,500px);height:100dvh;margin:auto;overflow:hidden;background:radial-gradient(circle at 50% 18%,#155a78,#08263a 55%,#020b15)}
 .logo{position:absolute;z-index:30;left:10px;top:8px;font-size:24px;font-weight:1000;font-style:italic}.logo b{color:#ffb326}.logo small{display:block;font-size:8px;font-style:normal}
 .huds{position:absolute;z-index:30;right:7px;top:7px;display:flex;gap:4px}.hud{min-width:55px;padding:4px;border:1px solid #45c9ff;border-radius:9px;background:#041a2ddd;text-align:center;font-size:8px;font-weight:900}.hud strong{display:block;font-size:14px}.timer strong{color:#ff6068}
-#rig{position:absolute;z-index:8;left:11%;top:11%;width:68%;height:48%;animation:float 1.4s ease-in-out infinite}
-#body{position:absolute;z-index:5;left:25%;top:33%;width:52%;filter:drop-shadow(0 7px 8px #0005)}
-#head{position:absolute;z-index:9;left:30%;top:0;width:47%;transform-origin:50% 90%;animation:head 1.8s ease-in-out infinite;filter:drop-shadow(0 4px 5px #0004)}
-.armSvg{position:absolute;z-index:4;top:36%;width:39%;height:60%;overflow:visible;filter:drop-shadow(0 3px 3px #0003)}
-.leftArm{left:1%}.rightArm{right:-2%;transform:scaleX(-1)}
-.upperG{transform-origin:72px 25px;animation:shoulder 1.15s ease-in-out infinite}
-.foreG{transform-origin:72px 108px;animation:elbow 1s ease-in-out infinite}
-.handG{transform-origin:70px 188px;animation:wrist .82s ease-in-out infinite}
+
+/* Character skeleton */
+#rig{position:absolute;z-index:8;left:9%;top:11%;width:72%;height:48%;animation:float 1.5s ease-in-out infinite}
+#body{position:absolute;z-index:5;left:26%;top:34%;width:50%;filter:drop-shadow(0 7px 8px #0005)}
+.headPivot{position:absolute;z-index:10;left:31%;top:1%;width:45%;height:39%;transform-origin:50% 92%;animation:headBob 1.8s ease-in-out infinite}
+.faceClip{position:absolute;inset:0;border-radius:47% 47% 45% 45%/43% 43% 56% 56%;overflow:hidden;background:#c99572;box-shadow:0 4px 8px #0004}
+#head{position:absolute;width:146%;height:146%;left:-23%;top:-17%;object-fit:cover;object-position:50% 34%}
+.neck{position:absolute;z-index:4;left:46%;top:29%;width:14%;height:19%;border-radius:16px;background:linear-gradient(#d2a079,#bd865f)}
+.shoulderCap{position:absolute;z-index:4;top:39%;width:18%;height:18%;border-radius:50%;background:#bd8b58}.shoulderCap.l{left:19%}.shoulderCap.r{right:18%}
+
+/* True nested pivot chain: shoulder > upper arm > elbow > forearm > wrist > hand */
+.armRig{position:absolute;z-index:3;top:38%;width:34%;height:58%;pointer-events:none}
+.armRig.left{left:5%}.armRig.right{right:3%;transform:scaleX(-1)}
+.shoulderPivot{position:absolute;left:50%;top:5%;width:54px;height:98px;transform-origin:50% 10px;animation:shoulder 1.2s ease-in-out infinite}
+.upperArm{position:absolute;left:11px;top:0;width:32px;height:92px;border-radius:18px 18px 16px 16px;background:linear-gradient(90deg,#b98451,#d0a06d 48%,#b77e4b);border:1px solid #8b603c}
+.elbowPivot{position:absolute;left:16px;top:78px;width:44px;height:100px;transform-origin:11px 11px;animation:elbow 1.05s ease-in-out infinite}
+.elbowBall{position:absolute;left:0;top:0;width:23px;height:23px;border-radius:50%;background:#d2a17a}
+.forearm{position:absolute;left:2px;top:10px;width:28px;height:91px;border-radius:15px;background:linear-gradient(90deg,#c78e67,#dda984 48%,#c78e67);transform:rotate(-2deg)}
+.wristPivot{position:absolute;left:2px;top:87px;width:55px;height:67px;transform-origin:14px 9px;animation:wrist .85s ease-in-out infinite}
+.wrist{position:absolute;left:4px;top:0;width:23px;height:22px;border-radius:12px;background:#d8a47e}
+.hand{position:absolute;left:-4px;top:13px;width:44px;height:48px;border-radius:50% 50% 44% 44%;background:linear-gradient(90deg,#ca926d,#e0ab85,#ca916c)}
+.finger{position:absolute;width:9px;height:34px;border-radius:9px;background:#dda681;transform-origin:50% 3px}.f1{left:1px;top:31px;transform:rotate(32deg)}.f2{left:11px;top:38px;transform:rotate(12deg)}.f3{left:21px;top:38px;transform:rotate(-3deg)}.f4{left:31px;top:32px;transform:rotate(-20deg)}
+#game.correct .shoulderPivot{animation:shoulderGood .32s 2 alternate}
+#game.correct .elbowPivot{animation:elbowGood .32s 2 alternate}
+#game.wrong .elbowPivot{animation:elbowWrong .16s 5 alternate}
+#game.wrong .wristPivot{animation:wristWrong .16s 5 alternate}
 #game.correct #rig{animation:good .5s ease}#game.wrong #rig{animation:bad .12s 7}
-#game.correct .foreG{animation:elbowGood .28s 2 alternate}#game.wrong .handG{animation:wristBad .15s 5 alternate}
+
 .speech{position:absolute;z-index:20;right:3%;top:27%;width:130px;padding:8px;border-radius:14px;background:#fff;color:#11283d;font-size:10px;font-weight:900;box-shadow:0 6px 18px #0007}
 .water{position:absolute;z-index:14;left:-10%;bottom:36%;width:120%;height:18%;background:linear-gradient(#b9f7ffad,#159ed5e8 18%,#034c73);box-shadow:0 -10px 28px #5ce5ff99;transition:height .7s;animation:swell .8s ease-in-out infinite alternate}.wave,.wave2{position:absolute;left:-5%;width:110%;height:28px;background:radial-gradient(ellipse at 50% 100%,#e8fdff 0 28%,transparent 32%) 0 0/48px 25px repeat-x}.wave{top:-18px;animation:wave .62s linear infinite}.wave2{top:-7px;opacity:.4;background-size:37px 20px;animation:wave2 .52s linear infinite}
 .rain{position:absolute;z-index:18;inset:0;pointer-events:none}.rain i{position:absolute;top:-15%;width:1.5px;height:31px;background:linear-gradient(transparent,#d9f7ffb8);animation:rain linear infinite;transform:rotate(12deg)}
 .progress{position:absolute;z-index:22;left:9px;right:9px;top:56%;padding:5px 8px;border:1px solid #42c7ff;border-radius:10px;background:#04192ddd}.track{height:8px;background:#17384d;border-radius:8px;overflow:hidden}.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#30d77c,#ffd243);transition:.4s}
 .quiz{position:absolute;z-index:25;left:8px;right:8px;bottom:8px;height:39%;padding:9px;border:1.5px solid #48c8ff;border-radius:16px;background:#04192df5;box-shadow:0 0 25px #168bd655}.qhead{display:flex;justify-content:space-between;font-size:9px;font-weight:900;color:#a4e6ff}.question{min-height:48px;margin:6px 0;padding:8px 10px;border-radius:9px;background:#f2faff;color:#10243b;font-size:14px;font-weight:950;display:flex;align-items:center}.answers{display:grid;grid-template-columns:1fr 1fr;gap:6px}.ans{min-height:38px;border:1.5px solid #acd3ec;border-radius:9px;background:linear-gradient(#fff,#cce4f2);color:#10243b;font-size:12px;font-weight:1000}.ans.good{background:#4ce978}.ans.bad{background:#ef625c;color:#fff}.feedback{margin-top:6px;min-height:30px;padding:6px 8px;border:1px solid #277aa4;border-radius:9px;background:#06243c;font-size:9px;font-weight:900}.feedback.good{color:#61ff95}.feedback.bad{color:#ff938a}
 .screen{position:absolute;z-index:60;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 50% 32%,#0d5277,#020713 75%)}.card{text-align:center;width:94%}.big{font-size:51px;line-height:.84;font-weight:1000;font-style:italic}.big b{color:#ffb42c}.btn{width:100%;min-height:54px;border:1px solid #ffe49a;border-radius:13px;background:linear-gradient(#ffd65a,#e8860c);color:#4b2500;font-size:18px;font-weight:1000}.hidden{display:none!important}
-@keyframes float{50%{transform:translateY(-8px) rotate(.5deg)}}@keyframes head{50%{transform:rotate(-4deg)}}@keyframes shoulder{0%,100%{transform:rotate(7deg)}50%{transform:rotate(-16deg)}}@keyframes elbow{0%,100%{transform:rotate(4deg)}50%{transform:rotate(20deg)}}@keyframes wrist{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(9deg)}}@keyframes elbowGood{to{transform:rotate(40deg)}}@keyframes wristBad{to{transform:rotate(17deg)}}@keyframes good{50%{transform:translateY(-15px) scale(1.03)}}@keyframes bad{50%{transform:translateX(7px) rotate(2deg)}}@keyframes swell{to{transform:translateY(7px)}}@keyframes wave{to{background-position:48px 0}}@keyframes wave2{to{background-position:-37px 0}}@keyframes rain{to{transform:translate(100px,120vh) rotate(12deg)}}
+
+@keyframes float{50%{transform:translateY(-8px) rotate(.5deg)}}@keyframes headBob{50%{transform:rotate(-4deg) translateY(-2px)}}
+@keyframes shoulder{0%,100%{transform:rotate(20deg)}50%{transform:rotate(-26deg)}}@keyframes elbow{0%,100%{transform:rotate(8deg)}50%{transform:rotate(38deg)}}@keyframes wrist{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(12deg)}}
+@keyframes shoulderGood{to{transform:rotate(-55deg)}}@keyframes elbowGood{to{transform:rotate(58deg)}}@keyframes elbowWrong{to{transform:rotate(-10deg)}}@keyframes wristWrong{to{transform:rotate(20deg)}}
+@keyframes good{50%{transform:translateY(-15px) scale(1.03)}}@keyframes bad{50%{transform:translateX(7px) rotate(2deg)}}@keyframes swell{to{transform:translateY(7px)}}@keyframes wave{to{background-position:48px 0}}@keyframes wave2{to{background-position:-37px 0}}@keyframes rain{to{transform:translate(100px,120vh) rotate(12deg)}}
 </style></head><body><main id="game">
-<div class="logo"><b>RESCUE</b> ครูเจต<small>เกมกฎของโอห์ม</small></div><div class="huds"><div class="hud timer">เวลา<strong id="time">20</strong></div><div class="hud">คะแนน<strong id="score">0</strong></div><div class="hud">ด่าน<strong id="stage">1/10</strong></div></div>
+<div class="logo"><b>RESCUE</b> ครูเจต<small>เกมกฎของโอห์ม</small></div>
+<div class="huds"><div class="hud timer">เวลา<strong id="time">20</strong></div><div class="hud">คะแนน<strong id="score">0</strong></div><div class="hud">ด่าน<strong id="stage">1/10</strong></div></div>
+
 <div id="rig">
-<svg class="armSvg leftArm" viewBox="0 0 145 255">
- <g class="upperG"><path d="M72 18 C49 19 39 40 41 69 C43 88 52 105 61 118 C69 126 84 123 90 112 C95 102 91 89 87 75 C83 59 86 43 91 31 C94 23 84 18 72 18Z" fill="#c99a68"/><path d="M71 20 C50 21 42 39 43 62 C52 54 68 50 87 54 C87 43 91 32 92 28 C87 21 79 19 71 20Z" fill="#bd8d5b"/></g>
- <g class="foreG"><path d="M61 105 C54 119 48 143 48 164 C48 180 55 192 66 196 C78 200 89 192 91 179 C94 159 88 133 85 115 C82 101 68 96 61 105Z" fill="#d5a57d"/></g>
- <g class="handG"><path d="M65 181 C51 188 44 202 46 216 C48 229 60 238 74 237 C86 236 95 227 96 215 C98 201 88 187 78 182 C74 180 69 180 65 181Z" fill="#dda984"/><path d="M56 214 C46 220 37 229 30 237" fill="none" stroke="#dda984" stroke-width="10" stroke-linecap="round"/><path d="M61 219 C53 229 48 238 45 246" fill="none" stroke="#dda984" stroke-width="8" stroke-linecap="round"/></g>
-</svg>
-<svg class="armSvg rightArm" viewBox="0 0 145 255">
- <g class="upperG"><path d="M72 18 C49 19 39 40 41 69 C43 88 52 105 61 118 C69 126 84 123 90 112 C95 102 91 89 87 75 C83 59 86 43 91 31 C94 23 84 18 72 18Z" fill="#c99a68"/><path d="M71 20 C50 21 42 39 43 62 C52 54 68 50 87 54 C87 43 91 32 92 28 C87 21 79 19 71 20Z" fill="#bd8d5b"/></g>
- <g class="foreG"><path d="M61 105 C54 119 48 143 48 164 C48 180 55 192 66 196 C78 200 89 192 91 179 C94 159 88 133 85 115 C82 101 68 96 61 105Z" fill="#d5a57d"/></g>
- <g class="handG"><path d="M65 181 C51 188 44 202 46 216 C48 229 60 238 74 237 C86 236 95 227 96 215 C98 201 88 187 78 182 C74 180 69 180 65 181Z" fill="#dda984"/></g>
-</svg>
-<img id="body" src="body.png"><img id="head" src="head.png">
+ <div class="neck"></div><div class="shoulderCap l"></div><div class="shoulderCap r"></div>
+ <div class="armRig left"><div class="shoulderPivot"><div class="upperArm"></div><div class="elbowPivot"><div class="elbowBall"></div><div class="forearm"></div><div class="wristPivot"><div class="wrist"></div><div class="hand"></div><i class="finger f1"></i><i class="finger f2"></i><i class="finger f3"></i><i class="finger f4"></i></div></div></div></div>
+ <div class="armRig right"><div class="shoulderPivot"><div class="upperArm"></div><div class="elbowPivot"><div class="elbowBall"></div><div class="forearm"></div><div class="wristPivot"><div class="wrist"></div><div class="hand"></div><i class="finger f1"></i><i class="finger f2"></i><i class="finger f3"></i><i class="finger f4"></i></div></div></div></div>
+ <img id="body" src="body.png">
+ <div class="headPivot"><div class="faceClip"><img id="head" src="head.png"></div></div>
 </div>
-<div id="speech" class="speech">ช่วยครูเจตด้วยครับ!</div><div id="rain" class="rain"></div><div id="water" class="water"><div class="wave"></div><div class="wave2"></div></div><div class="progress"><div class="track"><i id="prog"></i></div></div>
+
+<div id="speech" class="speech">ช่วยครูเจตด้วยครับ!</div><div id="rain" class="rain"></div><div id="water" class="water"><div class="wave"></div><div class="wave2"></div></div>
+<div class="progress"><div class="track"><i id="prog"></i></div></div>
 <section class="quiz"><div class="qhead"><span id="qno">คำถามที่ 1</span><span>⚡ กฎของโอห์ม</span></div><div id="q" class="question"></div><div id="answers" class="answers"></div><div id="feed" class="feedback">เลือกคำตอบก่อนเวลาหมด</div></section>
-<section id="menu" class="screen"><div class="card"><div class="big"><b>RESCUE</b><br>ครูเจต</div><p>V13.4 — แก้แขนขาดและกรอบภาพ</p><button id="start" class="btn">เริ่มภารกิจ</button></div></section>
+<section id="menu" class="screen"><div class="card"><div class="big"><b>RESCUE</b><br>ครูเจต</div><p>V13.5 — Pivot Rig<br>หัวไหล่ → ศอก → ข้อมือ → มือ</p><button id="start" class="btn">เริ่มภารกิจ</button></div></section>
 <section id="end" class="screen hidden"><div class="card"><div class="big"><b>SAFE!</b><br>สำเร็จ</div><p id="summary"></p><button id="again" class="btn">เล่นอีกครั้ง</button></div></section>
 <script>
 const Q=[["12 V ÷ 6 Ω = ?",["1 A","2 A","3 A","6 A"],1],["10 V ÷ 5 Ω = ?",["1 A","2 A","5 A","10 A"],1],["I=2 A, R=5 Ω → V=?",["5 V","7 V","10 V","12 V"],2],["V=20 V, I=4 A → R=?",["4 Ω","5 Ω","8 Ω","10 Ω"],1],["9 V ÷ 3 Ω = ?",["2 A","3 A","6 A","9 A"],1],["I=3 A, R=4 Ω → V=?",["7 V","12 V","16 V","24 V"],1],["24 V ÷ 8 Ω = ?",["2 A","3 A","4 A","8 A"],1],["18 V ÷ 3 A → R=?",["3 Ω","6 Ω","9 Ω","18 Ω"],1],["I=2 A, R=6 Ω → V=?",["3 V","8 V","12 V","18 V"],2],["30 V ÷ 10 Ω = ?",["2 A","3 A","10 A","30 A"],1]];

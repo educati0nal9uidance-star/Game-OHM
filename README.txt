@@ -1,1 +1,1 @@
-V13.4 based on V13. Clean SVG articulated arms eliminate cropped-image rectangles. Upload index.html plus all PNG files.
+V13.5 Pivot Rig. Nested hierarchy per arm: shoulderPivot > upperArm > elbowPivot > forearm > wristPivot > hand. Head source is clipped to an oval so its rectangular source background is hidden. Upload index.html and PNGs together.
