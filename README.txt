@@ -1,1 +1,1 @@
-V13.3 layered transparent character. Upload index.html and every PNG file together.
+V13.4 based on V13. Clean SVG articulated arms eliminate cropped-image rectangles. Upload index.html plus all PNG files.
