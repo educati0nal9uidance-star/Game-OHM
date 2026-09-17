@@ -1,53 +1,128 @@
 <!doctype html><html lang="th"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>Ohm's Law Mini Game — ครูเจต</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex,nofollow"><title>RESCUE ครูเจต</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;background:#07172b;color:#10233d}
-button{font:inherit}.app{min-height:100dvh;background:linear-gradient(#edf7ff,#dcecff)}
-.hero{position:relative;min-height:100dvh;background:url(home-bg.png) center/cover no-repeat}
-.hero:after{content:"";position:absolute;inset:0;background:#04152b10;pointer-events:none}
-.hot{position:absolute;z-index:5;border:0;background:transparent;cursor:pointer}
-.playHot{left:45%;top:58%;width:21%;height:8%}.lessonHot{left:45%;top:67%;width:21%;height:7%}.scoreHot{left:45%;top:76%;width:21%;height:7%}
-.mobilebar{display:none}
-.panel{position:fixed;z-index:30;inset:0;background:linear-gradient(#eaf6ff,#dceeff);overflow:auto;padding:18px}.hidden{display:none}
-.top{max-width:760px;margin:auto;display:flex;justify-content:space-between;align-items:center}.back{border:0;border-radius:12px;background:#183b63;color:#fff;padding:10px 16px;font-weight:900}.brand{font-size:22px;font-weight:1000;color:#1265bb}
-.card{max-width:760px;margin:16px auto;background:#fff;border:1px solid #b8d8ef;border-radius:22px;padding:18px;box-shadow:0 10px 30px #316a9630}
-.stats{display:flex;gap:8px}.stat{flex:1;text-align:center;background:#eaf6ff;border-radius:12px;padding:8px;font-size:12px}.stat b{display:block;font-size:20px;color:#116dc4}
-.formula{text-align:center;font-size:36px;font-weight:1000;color:#176ec6;margin:8px}.formula i{color:#ef592f;font-style:normal}
-.q{font-size:20px;font-weight:950;margin:18px 0}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ans{min-height:58px;border:2px solid #a8cde8;border-radius:14px;background:#f6fbff;font-weight:900;color:#17324d}.ans:active{transform:scale(.98)}.ans.good{background:#52dc76;border-color:#22a94a}.ans.bad{background:#ef6964;color:#fff;border-color:#cf3f39}
-.message{margin-top:14px;padding:12px;border-radius:12px;background:#edf7ff;font-weight:800}.bar{height:10px;background:#d8e7f2;border-radius:10px;overflow:hidden}.bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,#32ca75,#ffc93e);transition:.4s}
-.lesson h2{color:#176ec6}.lesson .formula{font-size:48px}.lesson p{line-height:1.7}.scorelist{font-size:18px;line-height:2}
-@media(max-width:700px){
-.hero{background-position:38% center;background-size:auto 100%;min-height:100dvh}
-.hot{display:none}.mobilebar{display:flex;position:absolute;z-index:10;left:12px;right:12px;bottom:18px;gap:8px}
-.mobilebar button{flex:1;min-height:52px;border:0;border-radius:14px;color:#fff;font-weight:1000;box-shadow:0 7px 18px #0004}
-.mobilebar .p{background:#1685ef}.mobilebar .l{background:#26aa62}.mobilebar .s{background:#efa913;color:#4a3100}
-.panel{padding:12px}.answers{grid-template-columns:1fr}.q{font-size:18px}.card{padding:14px}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020914;color:#fff;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif}
+#game{position:relative;width:min(100vw,500px);height:100dvh;margin:auto;overflow:hidden;background:radial-gradient(circle at 50% 20%,#15516f,#071a2b 55%,#020914)}
+.logo{position:absolute;z-index:40;left:9px;top:8px;font-size:24px;font-weight:1000;font-style:italic;text-shadow:0 0 14px #48d8ff}.logo b{color:#ffb42b}.logo small{display:block;font-size:8px;font-style:normal}
+.huds{position:absolute;z-index:40;right:7px;top:7px;display:flex;gap:4px}.hud{min-width:54px;padding:4px;border:1px solid #45b9ef;border-radius:8px;background:#061b31e8;text-align:center;font-size:8px;font-weight:900}.hud strong{display:block;font-size:13px}.timer strong{color:#ff6570}
+/* REAL RIG: every visible body part below is a separate transparent PNG */
+#rig{position:absolute;z-index:8;left:10%;top:11%;width:65%;height:47%;animation:bodyFloat 1.3s ease-in-out infinite;transform-origin:50% 75%}
+.part{position:absolute;pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 5px 5px #0004)}
+#torso{z-index:3;left:27%;top:36%;width:48%;height:auto}
+#head{z-index:7;left:30%;top:1%;width:45%;height:auto;transform-origin:50% 88%;animation:headMove 1.7s ease-in-out infinite}
+.arm{z-index:2;top:38%;height:auto;transform-origin:50% 8%}
+#leftArm{left:8%;width:34%;animation:leftArm .85s ease-in-out infinite}
+#rightArm{right:2%;width:34%;animation:rightArm 1s ease-in-out infinite}
+#game.correct #rig{animation:correct .5s ease}
+#game.wrong #rig{animation:wrong .12s 7}
+#game.correct #leftArm{animation:leftCelebrate .25s 2 alternate}
+#game.wrong #leftArm,#game.wrong #rightArm{animation:wrongArm .16s 5 alternate}
+.speech{position:absolute;z-index:25;right:4%;top:26%;width:125px;padding:7px;border-radius:12px;background:#f8fcff;color:#12253a;font-size:10px;font-weight:900;box-shadow:0 5px 18px #0008}
+.water{position:absolute;z-index:15;left:-10%;bottom:36%;width:120%;height:18%;background:linear-gradient(#c3f8ffb0,#129bd3e8 18%,#034c73);box-shadow:0 -10px 28px #5be2ff99;transition:height .7s;animation:swell .85s ease-in-out infinite alternate}.wave,.wave2{position:absolute;left:-5%;width:110%;height:28px;background:radial-gradient(ellipse at 50% 100%,#e8fdff 0 28%,transparent 32%) 0 0/48px 25px repeat-x}.wave{top:-18px;animation:wave .62s linear infinite}.wave2{top:-7px;opacity:.42;background-size:37px 20px;animation:wave2 .52s linear infinite}
+.rain{position:absolute;z-index:20;inset:0;pointer-events:none;overflow:hidden}.rain i{position:absolute;top:-15%;width:1.5px;height:31px;background:linear-gradient(transparent,#d9f7ffb8);animation:rain linear infinite;transform:rotate(12deg)}
+.progress{position:absolute;z-index:25;left:9px;right:9px;top:56%;padding:5px 8px;border:1px solid #3daee1;border-radius:10px;background:#06192dde}.track{height:7px;background:#17384d;border-radius:8px;overflow:hidden}.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#29e695,#ffe35c);transition:.4s}
+.quiz{position:absolute;z-index:30;left:8px;right:8px;bottom:8px;height:39%;padding:8px;border:1.5px solid #4bc5ff;border-radius:15px;background:#061a2ef8;box-shadow:0 0 26px #168bd655}.qhead{display:flex;justify-content:space-between;font-size:9px;font-weight:900;color:#9de1ff}.question{min-height:48px;margin:5px 0;padding:7px 9px;border-radius:8px;background:#eff9ff;color:#10243b;font-size:13px;font-weight:950;display:flex;align-items:center}.answers{display:grid;grid-template-columns:1fr 1fr;gap:5px}.ans{min-height:36px;border:1.5px solid #aacce4;border-radius:8px;background:linear-gradient(#fff,#c6ddeb);color:#10243b;font-size:12px;font-weight:1000}.ans.good{background:#45ef68}.ans.bad{background:#f15a53;color:#fff}.feedback{margin-top:5px;min-height:29px;padding:5px 7px;border:1px solid #28769d;border-radius:8px;background:#072239;font-size:9px;font-weight:900}.feedback.good{color:#61ff95}.feedback.bad{color:#ff938a}
+.screen{position:absolute;z-index:70;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 50% 32%,#0c496f,#020713 74%)}.card{text-align:center;width:94%}.big{font-size:50px;line-height:.85;font-weight:1000;font-style:italic}.big b{color:#ffb42c}.btn{width:100%;min-height:54px;border:1px solid #ffe49a;border-radius:13px;background:linear-gradient(#ffd65a,#e8860c);color:#4b2500;font-size:18px;font-weight:1000}.hidden{display:none!important}
+@keyframes bodyFloat{50%{transform:translateY(-8px) rotate(.5deg)}}@keyframes headMove{50%{transform:rotate(-5deg) translateY(-2px)}}@keyframes leftArm{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-35deg) translate(-8px,-8px)}}@keyframes rightArm{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(23deg) translate(5px,-5px)}}@keyframes leftCelebrate{to{transform:rotate(-65deg) translateY(-10px)}}@keyframes wrongArm{to{transform:rotate(8deg)}}@keyframes correct{50%{transform:translateY(-15px) scale(1.03)}}@keyframes wrong{50%{transform:translateX(7px) rotate(1.8deg)}}@keyframes swell{to{transform:translateY(7px)}}@keyframes wave{to{background-position:48px 0}}@keyframes wave2{to{background-position:-37px 0}}@keyframes rain{to{transform:translate(100px,120vh) rotate(12deg)}}
+</style>
+<style>
+/* V13.1 — corrected anatomical assembly */
+#rig{left:10%;top:10%;width:68%;height:49%}
+#torso{left:25%;top:34%;width:51%;z-index:5}
+#head{left:31%;top:0;width:44%;z-index:9}
+.arm{top:39%;width:27%;z-index:3;transform-origin:50% 7%}
+#leftArm{left:9%;filter:drop-shadow(0 4px 4px #0004)}
+#rightArm{right:7%;transform:scaleX(-1);filter:drop-shadow(0 4px 4px #0004)}
+#rig:before,#rig:after{
+ content:"";position:absolute;z-index:4;top:39%;width:18%;height:15%;
+ border-radius:50%;background:#c99a64;
+ box-shadow:inset 0 0 8px #8a603955
 }
-</style></head><body><main class="app">
-<section id="home" class="hero">
-<button class="hot playHot" onclick="openGame()" aria-label="เริ่มเล่นเกม"></button>
-<button class="hot lessonHot" onclick="show('lesson')" aria-label="ดูตัวอย่างโจทย์"></button>
-<button class="hot scoreHot" onclick="show('scores')" aria-label="ตารางคะแนน"></button>
-<div class="mobilebar"><button class="p" onclick="openGame()">▶ เริ่มเกม</button><button class="l" onclick="show('lesson')">📖 เรียนรู้</button><button class="s" onclick="show('scores')">🏆 คะแนน</button></div>
-</section>
+#rig:before{left:19%}#rig:after{right:18%}
+#leftArm{animation:leftHuman .95s ease-in-out infinite}
+#rightArm{animation:rightHuman 1.05s ease-in-out infinite}
+#game.correct #leftArm{animation:leftCelebrate .28s 2 alternate}
+#game.correct #rightArm{animation:rightCelebrate .28s 2 alternate}
+#game.wrong #leftArm{animation:leftWrong .18s 4 alternate}
+#game.wrong #rightArm{animation:rightWrong .18s 4 alternate}
+@keyframes leftHuman{
+ 0%,100%{transform:rotate(12deg) translate(0,0)}
+ 50%{transform:rotate(-25deg) translate(-5px,-6px)}
+}
+@keyframes rightHuman{
+ 0%,100%{transform:scaleX(-1) rotate(12deg) translate(0,0)}
+ 50%{transform:scaleX(-1) rotate(-24deg) translate(5px,-6px)}
+}
+@keyframes rightCelebrate{to{transform:scaleX(-1) rotate(-52deg) translate(4px,-8px)}}
+@keyframes leftWrong{to{transform:rotate(22deg) translateY(4px)}}
+@keyframes rightWrong{to{transform:scaleX(-1) rotate(22deg) translateY(4px)}}
+</style>
 
-<section id="game" class="panel hidden"><div class="top"><button class="back" onclick="home()">← กลับ</button><div class="brand">Ohm's Law Mini Game</div></div>
-<div class="card"><div class="stats"><div class="stat">ข้อ<b id="stage">1/10</b></div><div class="stat">เวลา<b id="time">20</b></div><div class="stat">คะแนน<b id="score">0</b></div></div>
-<div class="formula"><i>V</i> = I × R</div><div class="bar"><i id="progress"></i></div><div id="q" class="q"></div><div id="answers" class="answers"></div><div id="msg" class="message">ครูเจต: ลองคิดจากสูตร V = I × R นะครับ</div></div></section>
-
-<section id="lesson" class="panel lesson hidden"><div class="top"><button class="back" onclick="home()">← กลับ</button><div class="brand">เรียนรู้กฎของโอห์ม</div></div><div class="card"><h2>กฎของโอห์ม</h2><div class="formula"><i>V</i> = I × R</div><p><b>V</b> = แรงดันไฟฟ้า หน่วยโวลต์ (V)<br><b>I</b> = กระแสไฟฟ้า หน่วยแอมแปร์ (A)<br><b>R</b> = ความต้านทาน หน่วยโอห์ม (Ω)</p><p><b>ตัวอย่าง:</b> ถ้า I = 2 A และ R = 5 Ω จะได้ V = 2 × 5 = <b>10 V</b></p><button class="back" onclick="openGame()">เริ่มทำโจทย์</button></div></section>
-
-<section id="scores" class="panel hidden"><div class="top"><button class="back" onclick="home()">← กลับ</button><div class="brand">คะแนนสูงสุด</div></div><div class="card scorelist" id="scoreList"></div></section>
-</main><script>
-const Q=[["12 V ÷ 6 Ω = ?",["1 A","2 A","3 A","6 A"],1],["10 V ÷ 5 Ω = ?",["1 A","2 A","5 A","10 A"],1],["I = 2 A, R = 5 Ω → V = ?",["5 V","7 V","10 V","12 V"],2],["V = 20 V, I = 4 A → R = ?",["4 Ω","5 Ω","8 Ω","10 Ω"],1],["9 V ÷ 3 Ω = ?",["2 A","3 A","6 A","9 A"],1],["I = 3 A, R = 4 Ω → V = ?",["7 V","12 V","16 V","24 V"],1],["24 V ÷ 8 Ω = ?",["2 A","3 A","4 A","8 A"],1],["V = 18 V, I = 3 A → R = ?",["3 Ω","6 Ω","9 Ω","18 Ω"],1],["I = 2 A, R = 6 Ω → V = ?",["3 V","8 V","12 V","18 V"],2],["30 V ÷ 10 Ω = ?",["2 A","3 A","10 A","30 A"],1]];
-let n=0,score=0,t=20,timer,lock=false; const $=s=>document.querySelector(s);
-function show(id){document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));$('#home').classList.add('hidden');$('#'+id).classList.remove('hidden');if(id==='scores') renderScores()}
-function home(){clearInterval(timer);document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));$('#home').classList.remove('hidden')}
-function openGame(){show('game');n=0;score=0;render();clearInterval(timer);timer=setInterval(tick,1000)}
-function render(){if(n>=Q.length)return finish();lock=false;t=20;$('#time').textContent=t;$('#stage').textContent=(n+1)+'/10';$('#score').textContent=score;$('#progress').style.width=(n*10)+'%';$('#q').textContent=Q[n][0];$('#msg').textContent='ครูเจต: ค่อย ๆ คิดจากสูตรนะครับ';let a=$('#answers');a.innerHTML='';Q[n][1].forEach((v,i)=>{let b=document.createElement('button');b.className='ans';b.textContent=['ก. ','ข. ','ค. ','ง. '][i]+v;b.onclick=()=>answer(i,b);a.appendChild(b)})}
-function answer(i,b){if(lock)return;lock=true;if(i===Q[n][2]){b.classList.add('good');score+=100+t*2;$('#msg').textContent='ครูเจต: ถูกต้องครับ เยี่ยมมาก!'}else{b.classList.add('bad');$('#msg').textContent='ครูเจต: ยังไม่ถูกครับ คำตอบคือ '+Q[n][1][Q[n][2]]}setTimeout(()=>{n++;render()},900)}
-function tick(){if($('#game').classList.contains('hidden')||lock)return;t--;$('#time').textContent=t;if(t<=0){lock=true;$('#msg').textContent='ครูเจต: หมดเวลา ข้อต่อไปลองใหม่ครับ';setTimeout(()=>{n++;render()},800)}}
-function finish(){clearInterval(timer);$('#progress').style.width='100%';$('#q').textContent='จบเกม!';$('#answers').innerHTML='';$('#msg').textContent='ครูเจต: ได้ '+score+' คะแนน เก่งมากครับ';let s=JSON.parse(localStorage.getItem('ohmScores')||'[]');s.push({score,date:new Date().toLocaleDateString('th-TH')});s.sort((a,b)=>b.score-a.score);localStorage.setItem('ohmScores',JSON.stringify(s.slice(0,5)))}
-function renderScores(){let s=JSON.parse(localStorage.getItem('ohmScores')||'[]');$('#scoreList').innerHTML=s.length?s.map((x,i)=>`${i+1}. ${x.score} คะแนน — ${x.date}`).join('<br>'):'ยังไม่มีคะแนน ลองเล่นเกมก่อนครับ'}
-</script></body></html>
+<style>
+/* V13.2 — THREE-SEGMENT ARM RIG
+   shoulder -> elbow -> wrist, all using real transparent artwork */
+.arm3{
+ position:absolute;z-index:3;top:37%;width:28%;height:56%;
+ transform-origin:50% 8%;
+ pointer-events:none;
+}
+.left3{left:8%;animation:shoulderL 1.15s ease-in-out infinite}
+.right3{right:6%;transform:scaleX(-1);animation:shoulderR 1.15s ease-in-out infinite}
+.upper3,.fore3,.hand3{position:absolute;width:100%;height:auto;left:0;top:0;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 3px 3px #0003)}
+.upper3{z-index:3}
+.foreJoint{
+ position:absolute;z-index:4;left:0;top:31%;width:100%;height:63%;
+ transform-origin:50% 9%;animation:elbow 1.05s ease-in-out infinite
+}
+.fore3{z-index:4}
+.handJoint{
+ position:absolute;z-index:5;left:0;top:59%;width:100%;height:50%;
+ transform-origin:50% 9%;animation:wrist .8s ease-in-out infinite
+}
+.hand3{z-index:5}
+#game.correct .left3{animation:celebrateL .32s 2 alternate}
+#game.correct .right3{animation:celebrateR .32s 2 alternate}
+#game.correct .foreJoint{animation:elbowGood .32s 2 alternate}
+#game.wrong .foreJoint{animation:elbowWrong .15s 5 alternate}
+#game.wrong .handJoint{animation:wristWrong .15s 5 alternate}
+@keyframes shoulderL{0%,100%{transform:rotate(12deg)}50%{transform:rotate(-20deg) translate(-5px,-5px)}}
+@keyframes shoulderR{0%,100%{transform:scaleX(-1) rotate(12deg)}50%{transform:scaleX(-1) rotate(-20deg) translate(5px,-5px)}}
+@keyframes elbow{0%,100%{transform:rotate(4deg)}50%{transform:rotate(23deg)}}
+@keyframes wrist{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(9deg)}}
+@keyframes celebrateL{to{transform:rotate(-48deg) translateY(-9px)}}
+@keyframes celebrateR{to{transform:scaleX(-1) rotate(-48deg) translateY(-9px)}}
+@keyframes elbowGood{to{transform:rotate(42deg)}}
+@keyframes elbowWrong{to{transform:rotate(-12deg)}}
+@keyframes wristWrong{to{transform:rotate(16deg)}}
+</style>
+</head><body><main id="game">
+<div class="logo"><b>RESCUE</b> ครูเจต<small>เกมกฎของโอห์ม</small></div><div class="huds"><div class="hud timer">เวลา<strong id="time">20</strong></div><div class="hud">คะแนน<strong id="score">0</strong></div><div class="hud">ด่าน<strong id="stage">1/10</strong></div></div>
+<div id="rig"><div id="leftArm" class="arm3 left3">
+         <img class="upper3" src="upper_arm.png">
+         <div class="foreJoint"><img class="fore3" src="forearm.png">
+           <div class="handJoint"><img class="hand3" src="hand.png"></div>
+         </div>
+       </div><div id="rightArm" class="arm3 right3">
+         <img class="upper3" src="upper_arm.png">
+         <div class="foreJoint"><img class="fore3" src="forearm.png">
+           <div class="handJoint"><img class="hand3" src="hand.png"></div>
+         </div>
+       </div><img id="torso" class="part" src="torso.png"><img id="head" class="part" src="head_normal.png"></div>
+<div id="speech" class="speech">ช่วยครูเจตด้วยครับ!</div><div id="rain" class="rain"></div><div id="water" class="water"><div class="wave"></div><div class="wave2"></div></div><div class="progress"><div class="track"><i id="prog"></i></div></div>
+<section class="quiz"><div class="qhead"><span id="qno">คำถามที่ 1</span><span>กฎของโอห์ม</span></div><div id="q" class="question"></div><div id="answers" class="answers"></div><div id="feed" class="feedback">เลือกคำตอบก่อนเวลาหมด</div></section>
+<section id="menu" class="screen"><div class="card"><div class="big"><b>RESCUE</b><br>ครูเจต</div><p>V13.2 — แขน 3 ท่อน ขยับแยกที่ไหล่ ศอก และข้อมือ</p><button id="start" class="btn">เริ่มภารกิจ</button></div></section>
+<section id="end" class="screen hidden"><div class="card"><div class="big"><b>SAFE!</b><br>สำเร็จ</div><p id="summary"></p><button id="again" class="btn">เล่นอีกครั้ง</button></div></section>
+<script>
+const Q=[["12 V ÷ 6 Ω = ?",["1 A","2 A","3 A","6 A"],1],["10 V ÷ 5 Ω = ?",["1 A","2 A","5 A","10 A"],1],["I=2 A, R=5 Ω → V=?",["5 V","7 V","10 V","12 V"],2],["V=20 V, I=4 A → R=?",["4 Ω","5 Ω","8 Ω","10 Ω"],1],["9 V ÷ 3 Ω = ?",["2 A","3 A","6 A","9 A"],1],["I=3 A, R=4 Ω → V=?",["7 V","12 V","16 V","24 V"],1],["24 V ÷ 8 Ω = ?",["2 A","3 A","4 A","8 A"],1],["18 V ÷ 3 A → R=?",["3 Ω","6 Ω","9 Ω","18 Ω"],1],["I=2 A, R=6 Ω → V=?",["3 V","8 V","12 V","18 V"],2],["30 V ÷ 10 Ω = ?",["2 A","3 A","10 A","30 A"],1]];
+const $=s=>document.querySelector(s),g=$('#game'),head=$('#head');let n=0,score=0,correct=0,water=18,t=20,timer,lock=false;
+for(let i=0;i<35;i++){let e=document.createElement('i');e.style.left=Math.random()*100+'%';e.style.animationDuration=(.55+Math.random()*.8)+'s';e.style.animationDelay=(-Math.random()*2)+'s';$('#rain').appendChild(e)}
+function mood(name){head.src='head_'+name+'.png'}function setWater(v){water=Math.max(11,Math.min(60,v));$('#water').style.height=water+'%'}
+function state(s){g.classList.remove('wrong','correct');void g.offsetWidth;g.classList.add(s);setTimeout(()=>g.classList.remove(s),900)}
+function render(){if(n>=10)return finish();lock=false;t=20;mood(n>6?'worry':'normal');$('#time').textContent=t;$('#stage').textContent=(n+1)+'/10';$('#qno').textContent='คำถามที่ '+(n+1);$('#q').textContent=Q[n][0];let a=$('#answers');a.innerHTML='';Q[n][1].forEach((v,i)=>{let b=document.createElement('button');b.className='ans';b.textContent=['ก. ','ข. ','ค. ','ง. '][i]+v;b.onclick=()=>answer(i,b);a.appendChild(b)});$('#feed').className='feedback';$('#feed').textContent='เลือกคำตอบก่อนเวลาหมด'}
+function answer(i,b){if(lock)return;lock=true;if(i===Q[n][2]){b.classList.add('good');correct++;score+=100+t*2;mood(correct>6?'happy':'smile');setWater(water-6);state('correct');$('#speech').textContent='เยี่ยมครับ! น้ำลดแล้ว!';$('#feed').className='feedback good';$('#feed').textContent='✓ ถูกต้อง'}else{b.classList.add('bad');mood(water>35?'sad':'worry');setWater(water+9);state('wrong');$('#speech').textContent='โอ๊ะ! น้ำสูงขึ้นแล้ว!';$('#feed').className='feedback bad';$('#feed').textContent='ผิด — คำตอบ '+Q[n][1][Q[n][2]]}$('#score').textContent=score;$('#prog').style.width=correct*10+'%';setTimeout(()=>{n++;render()},1050)}
+function tick(){if(!$('#menu').classList.contains('hidden')||!$('#end').classList.contains('hidden')||lock)return;t--;$('#time').textContent=t;if(t<=0){lock=true;mood('sad');setWater(water+9);state('wrong');$('#feed').className='feedback bad';$('#feed').textContent='หมดเวลา!';setTimeout(()=>{n++;render()},950)}}
+function start(){n=score=correct=0;setWater(18);mood('normal');$('#score').textContent=0;$('#prog').style.width=0;$('#menu').classList.add('hidden');$('#end').classList.add('hidden');render();clearInterval(timer);timer=setInterval(tick,1000)}
+function finish(){clearInterval(timer);mood(correct>=6?'happy':'fight');setWater(11);$('#summary').textContent=`ตอบถูก ${correct}/10 ข้อ · ${score} คะแนน`;$('#end').classList.remove('hidden')}
+$('#start').onclick=start;$('#again').onclick=start;
+</script></main></body></html>

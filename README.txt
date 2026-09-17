@@ -1,1 +1,1 @@
-V10: face blend improved with oval feather mask, enlarged crop, neck and khaki collar overlap. Upload index.html + face0.png..face5.png.
+V13.2: each arm is split into 3 overlapping transparent image pieces: upper arm, forearm, hand. Independent pivots: shoulder, elbow, wrist. Upload index.html and all PNG files together.
